@@ -1,0 +1,41 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Text;
+using System.Windows.Forms;
+using ESRI.ArcGIS.DataSourcesFile;
+using ESRI.ArcGIS.DataSourcesGDB;
+using ESRI.ArcGIS.Geodatabase;
+
+
+ 
+
+namespace DatasetList
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void btnFile_Click(object sender, EventArgs e)
+        {
+            IWorkspaceFactory pWsf = new AccessWorkspaceFactoryClass();
+            IWorkspace pWs =  pWsf.OpenFromFile(txtBox.Text, 0);
+            IEnumDataset penum =  pWs.Datasets[esriDatasetType.esriDTFeatureDataset];
+            IDataset pdf = penum.Next();
+            
+             
+            while(pdf != null)
+            {
+                cmbList.Items.Add(pdf.Name);
+                pdf = penum.Next();
+            }
+
+   
+        }
+    }
+}
